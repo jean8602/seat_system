@@ -8,17 +8,25 @@ import com.example.seat_system.Service.Ifs.SeatingChartService;
 
 import com.example.seat_system.vo.AddSeatingChartRequest;
 import com.example.seat_system.vo.AddSeatingChartResponse;
+import com.example.seat_system.vo.SelectLocationRequest;
+import com.example.seat_system.vo.SelectLocationResponse;
 
 @RestController
 public class SeatingChartController {
 
 	@Autowired
 	SeatingChartService seatingChartService;
-	
+
 	@PostMapping(value = "add_Seat_Info")
 	public AddSeatingChartResponse addSeatInfo(@RequestBody AddSeatingChartRequest request) {
 		return seatingChartService.addSeatInfo(request);
-		
+
+	}
+
+	@PostMapping(value = "selectLocation")
+	public SelectLocationResponse selectLocation(@RequestBody SelectLocationRequest request) {
+		return seatingChartService.selectLocation(request);
+
 	}
 
 }

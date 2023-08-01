@@ -1,14 +1,17 @@
 package com.example.seat_system.Service.Impl;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.example.seat_system.Service.Ifs.EmployeeService;
+import com.example.seat_system.entity.Employee;
 import com.example.seat_system.repository.EmployeeDao;
 import com.example.seat_system.repository.SeatingChartDao;
 import com.example.seat_system.vo.AddEmployeeInfoRequest;
 import com.example.seat_system.vo.AddEmployeeInfoResponse;
+import com.example.seat_system.vo.GetEmployeeInfoResponse;
 import com.example.seat_system.vo.UpdateEmployeeInfoRequest;
 import com.example.seat_system.vo.UpdateEmployeeInfoResponse;
 
@@ -42,6 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		// 可以新增多筆資料？ 一開始可以不用有位置
+//		新增位置時要避免有重複的
 
 		return new AddEmployeeInfoResponse("成功");
 	}
@@ -67,6 +71,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    if (floorSeatSeq != null && !seatingChartDao.existsById(newFloorSeatSeq)) {
 	        return new UpdateEmployeeInfoResponse("該位置不存在");
 	    }
+	    
+//	    判斷座位是否有重複，如果有重複就不能修改
 
 		int res = employeeDao.updateEmployeeInfoByEmployeeId(newName, newEmail, newFloorSeatSeq, employeeId);
 		if (res == 0) {
@@ -77,6 +83,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		return new UpdateEmployeeInfoResponse("success!");
 
+	}
+
+	@Override
+	public GetEmployeeInfoResponse getEmployeeInfo() {
+		List<Employee> op = employeeDao.findAll();
+		return new GetEmployeeInfoResponse(op);
 	}
 
 }

@@ -38,4 +38,20 @@ public interface EmployeeDao extends JpaRepository<Employee, String> {
 			@Param("newFloorSeatSeq") String newFloorSeatSeq,
 			@Param("inputEmployeeId") String inputEmployeeId);
 
+//	確認是否有重複之位置
+	@Query(value = "SELECT COUNT(*) FROM employee e WHERE e.floor_seat_seq = :newFloorSeatSeq", nativeQuery = true)
+	int countEmployeesByFloorSeatSeq(@Param("newFloorSeatSeq") String newFloorSeatSeq);
+	
+	
+	
+//	選位置
+	@Transactional
+	@Modifying
+	@Query(value = "update employee e set e.floor_seat_seq = :newFloorSeatSeq"
+			+ " where e.emp_id = :inputEmployeeId", nativeQuery = true)
+
+	public int selectLocationByEmployeeId(
+			@Param("newFloorSeatSeq") String newFloorSeatSeq,
+			@Param("inputEmployeeId") String inputEmployeeId);
+
 }

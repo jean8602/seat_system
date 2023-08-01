@@ -1,9 +1,12 @@
 package com.example.seat_system.Service.Impl;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.example.seat_system.Service.Ifs.SeatingChartService;
+import com.example.seat_system.entity.Employee;
+import com.example.seat_system.repository.EmployeeDao;
 import com.example.seat_system.repository.SeatingChartDao;
 import com.example.seat_system.vo.AddSeatingChartRequest;
 import com.example.seat_system.vo.AddSeatingChartResponse;
@@ -20,6 +23,9 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 	@Autowired
 	SeatingChartDao seatingChartDao;
 
+	@Autowired
+	EmployeeDao employeeDao;
+
 //	新增座位資訊
 	@Override
 	public AddSeatingChartResponse addSeatInfo(AddSeatingChartRequest request) {
@@ -30,7 +36,7 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 		String floorSeatSeq = floorNo + "-" + seatNo;
 
 //		防呆 限制floorNo & seatNo只能為整數 不得有符號
-		
+
 		if (!StringUtils.hasText(floorNo) && !floorNo.matches(pattern)) {
 			return new AddSeatingChartResponse("樓層資料不得為空與要為整數");
 		}
@@ -38,7 +44,6 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 		if (!StringUtils.hasText(seatNo) && !seatNo.matches(pattern)) {
 			return new AddSeatingChartResponse("樓層資料不得為空與要為整數");
 		}
-
 
 //		確認資料沒重複新增到資料庫
 		int result = seatingChartDao.insertSeatInfoWhereNotExists(floorSeatSeq, floorNo, seatNo);
@@ -53,14 +58,38 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 //	修改座位資訊
 	@Override
 	public UpdateSeatingChartResponse updateSeatInfo(UpdateSeatingChartRequest request) {
-		// TODO Auto-generated method stub
+		// 修改座位資訊
+
 		return null;
 	}
 
 	@Override
 	public SelectLocationResponse selectLocation(SelectLocationRequest request) {
-		// 分為有選過位置與沒選過位置
-		return null;
+		// 確認是否有該名員工
+		String employeeId = request.getEmployeeId();
+		Optional<Employee> res = employeeDao.findById(employeeId);
+		if (!res.isPresent()) {
+			return new SelectLocationResponse("該員工不存在");
+		}
+
+		String floorSeatSeq = request.getFloorSeatSeq();
+		// 確認資料庫是否存在這個座位
+		if (!seatingChartDao.existsById(floorSeatSeq)) {
+			return new SelectLocationResponse("沒有這個位置");
+		}
+
+//	     如果座位已被選過，返回 "此位置已被佔用" 訊息
+		if (employeeDao.countEmployeesByFloorSeatSeq(floorSeatSeq) > 0) {
+			return new SelectLocationResponse("此位置已被佔用");
+		}
+
+		// 將位置存入，並確認是否更新成功
+		int selectRes = employeeDao.selectLocationByEmployeeId(floorSeatSeq, employeeId);
+		if (selectRes == 0) {
+			return new SelectLocationResponse("選位置失敗");
+		}
+
+		return new SelectLocationResponse("選位置成功");
 	}
 
 	@Override
