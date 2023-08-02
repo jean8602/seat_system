@@ -1,0 +1,20 @@
+SELECT e.emp_id, e.name, e.email, e.floor_seat_seq, s.floor_no, s.seat_no
+from employee e LEFT JOIN seating_chart s ON e.floor_seat_seq = s.floor_seat_seq;
+
+SELECT s.floor_seat_seq, s.floor_no, s.seat_no, e.emp_id, e.name, e.email
+FROM employee e
+RIGHT JOIN seating_chart s ON e.floor_seat_seq = s.floor_seat_seq;
+
+insert into employee(emp_id,name,email)
+select :inputEmployeeId, :inputName, :inputEmail
+where not exists (select 1 from employee where emp_id = :inputEmployeeId);
+
+update employee e set e.name = :newName, e.email = :newEmail,
+e.floor_seat_seq = :newFloorSeatSeq where e.emp_id = :inputEmployeeId;
+
+SELECT COUNT(*) FROM employee e WHERE e.floor_seat_seq = :newFloorSeatSeq;
+
+update employee e set e.floor_seat_seq = :newFloorSeatSeq where e.emp_id = :inputEmployeeId;
+
+insert into seating_chart(floor_seat_seq,floor_no,seat_no select :inputFloorSeatSeq, :inputFloorNo, :inputSeatNo
+where not exists (select 1 from seating_chart where floor_seat_seq = :inputFloorSeatSeq);
