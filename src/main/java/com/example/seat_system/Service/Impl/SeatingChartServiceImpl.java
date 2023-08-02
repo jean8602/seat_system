@@ -1,15 +1,19 @@
 package com.example.seat_system.Service.Impl;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.example.seat_system.Service.Ifs.SeatingChartService;
 import com.example.seat_system.entity.Employee;
+import com.example.seat_system.entity.SeatingChart;
 import com.example.seat_system.repository.EmployeeDao;
 import com.example.seat_system.repository.SeatingChartDao;
 import com.example.seat_system.vo.AddSeatingChartRequest;
 import com.example.seat_system.vo.AddSeatingChartResponse;
+import com.example.seat_system.vo.GetSeatingChartResponse;
+import com.example.seat_system.vo.SearchAllResponse;
 import com.example.seat_system.vo.SelectLocationRequest;
 import com.example.seat_system.vo.SelectLocationResponse;
 import com.example.seat_system.vo.UpdateLocationRequest;
@@ -96,6 +100,21 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 	public UpdateLocationResponse updateLocation(UpdateLocationRequest request) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public GetSeatingChartResponse getSeatingInfo() {
+		List<SeatingChart> op = seatingChartDao.findAll();
+		return new GetSeatingChartResponse(op);
+	
+	}
+
+//	查詢兩張表
+	@Override
+	public SearchAllResponse getAllInfo() {
+		List<SearchAllResponse> op = seatingChartDao.searchAllData();
+		
+		return new SearchAllResponse(op);
 	}
 
 }
