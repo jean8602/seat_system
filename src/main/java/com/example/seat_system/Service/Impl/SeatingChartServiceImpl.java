@@ -104,16 +104,26 @@ public class SeatingChartServiceImpl implements SeatingChartService {
 
 	@Override
 	public GetSeatingChartResponse getSeatingInfo() {
+		
 		List<SeatingChart> op = seatingChartDao.findAll();
 		return new GetSeatingChartResponse(op);
-	
+
 	}
 
 //	查詢兩張表
 	@Override
 	public SearchAllResponse getAllInfo() {
-		List<SearchAllResponse> op = seatingChartDao.searchAllData();
 		
+		List<SearchAllResponse> op = seatingChartDao.searchAllData();
+
+		return new SearchAllResponse(op);
+	}
+
+	@Override
+	public SearchAllResponse searchAllEmpData() {
+		
+		List<SearchAllResponse> op = seatingChartDao.searchAllEmpData();
+
 		return new SearchAllResponse(op);
 	}
 

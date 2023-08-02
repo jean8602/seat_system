@@ -23,7 +23,10 @@ public interface SeatingChartService {
 	public UpdateLocationResponse updateLocation (UpdateLocationRequest request);
 // 	查詢座位資料
 	public GetSeatingChartResponse getSeatingInfo();
-//	查詢兩張表的東西
+//	查詢兩張表的東西（樓層表在前）
 	public SearchAllResponse getAllInfo();
+	
+//	查詢兩張表的東西（員工表在前）
+	public SearchAllResponse searchAllEmpData();
 	
 }

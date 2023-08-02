@@ -28,12 +28,24 @@ public interface SeatingChartDao extends JpaRepository<SeatingChart, String> {
 	
 	
 	
+//	員工表在前
 	@Transactional
 	@Modifying
-	@Query("SELECT new com.example.seat_system.vo.SearchAllResponse(e.employeeId, e.name, e.email, e.floorSeatSeq, s.floorNo, s.seatNo)"
+	@Query("SELECT new com.example.seat_system.vo.SearchAllResponse(e.employeeId, e.name, e.email, e.floorSeatSeq)"
             + " FROM Employee e"
-            + " RIGHT JOIN SeatingChart s ON e.floorSeatSeq = s.floorSeatSeq")
+            + " LEFT JOIN SeatingChart s ON e.floorSeatSeq = s.floorSeatSeq")
+    public List<SearchAllResponse> searchAllEmpData();
+
+	
+	
+// 樓層表在前
+	@Transactional
+	@Modifying
+	@Query("SELECT new com.example.seat_system.vo.SearchAllResponse(s.floorSeatSeq, s.floorNo, s.seatNo, e.employeeId, e.name, e.email)"
+            + " FROM SeatingChart s"
+            + " LEFT JOIN Employee e ON e.floorSeatSeq = s.floorSeatSeq")
     public List<SearchAllResponse> searchAllData();
+
 
 
 }

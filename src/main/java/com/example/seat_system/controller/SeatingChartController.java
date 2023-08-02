@@ -44,6 +44,11 @@ public class SeatingChartController {
 		return seatingChartService.getAllInfo();
 	}
 	
+	@GetMapping(value = "searchAllEmpData")
+	public SearchAllResponse searchAllEmpData() {
+		return seatingChartService.searchAllEmpData();
+	}
+	
 
 
 }

@@ -23,21 +23,42 @@ public class SearchAllResponse {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SearchAllResponse(String employeeId, String name, String email, String floorSeatSeq, String floorNo,
-			String seatNo) {
-		super();
-		this.employeeId = employeeId;
-		this.name = name;
-		this.email = email;
-		this.floorSeatSeq = floorSeatSeq;
-		this.floorNo = floorNo;
-		this.seatNo = seatNo;
-	}
+//	public SearchAllResponse(String employeeId, String name, String email, String floorSeatSeq, String floorNo,
+//			String seatNo) {
+//		super();
+//		this.employeeId = employeeId;
+//		this.name = name;
+//		this.email = email;
+//		this.floorSeatSeq = floorSeatSeq;
+//		this.floorNo = floorNo;
+//		this.seatNo = seatNo;
+//	}
 
+	
 	public SearchAllResponse(List<SearchAllResponse> searchAllList) {
 		super();
 		this.searchAllList = searchAllList;
 	}
+
+
+	public SearchAllResponse(String employeeId, String name, String email, String floorSeatSeq) {
+	super();
+	this.employeeId = employeeId;
+	this.name = name;
+	this.email = email;
+	this.floorSeatSeq = floorSeatSeq;
+}
+
+	public SearchAllResponse(String floorSeatSeq, String floorNo, String seatNo, String employeeId, String name,
+		String email) {
+	super();
+	this.floorSeatSeq = floorSeatSeq;
+	this.floorNo = floorNo;
+	this.seatNo = seatNo;
+	this.employeeId = employeeId;
+	this.name = name;
+	this.email = email;
+}
 
 	public String getEmployeeId() {
 		return employeeId;
