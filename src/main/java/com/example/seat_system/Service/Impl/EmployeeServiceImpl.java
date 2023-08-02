@@ -91,4 +91,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return new GetEmployeeInfoResponse(op);
 	}
 
+	@Override
+	public UpdateEmployeeInfoResponse clearLocation(UpdateEmployeeInfoRequest request) {
+		String employeeId = request.getEmployeeId();
+		String newFloorSeatSeq = request.getFloorSeatSeq();
+
+
+		// 如果座位位置為空，則將其設為 null，否則保留原值
+	    String floorSeatSeq = Optional.ofNullable(newFloorSeatSeq).orElse(null);
+
+	    // 判斷座位位置是否存在資料庫內，或為 null
+	    if (floorSeatSeq != null && !seatingChartDao.existsById(newFloorSeatSeq)) {
+	        return new UpdateEmployeeInfoResponse("該位置不存在");
+	    }
+	    
+//	    判斷座位是否有重複，如果有重複就不能修改
+
+		int res = employeeDao.selectLocationByEmployeeId(newFloorSeatSeq, employeeId);
+		if (res == 0) {
+
+			return new UpdateEmployeeInfoResponse("修改失敗");
+
+		}
+
+		return new UpdateEmployeeInfoResponse("success!");
+	}
+
 }

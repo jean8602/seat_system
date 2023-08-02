@@ -10,10 +10,13 @@ public interface EmployeeService {
 	
 //	新增員工資料
 	public AddEmployeeInfoResponse addEmployeeInfo (AddEmployeeInfoRequest request);
-//  修改員工資料 （含修改位置）
+//  修改員工資料 
 	public UpdateEmployeeInfoResponse updateEmployeeInfo (UpdateEmployeeInfoRequest request);
 // 	查詢員工資料
 	public GetEmployeeInfoResponse getEmployeeInfo();
+	
+//	修改位置
+	public UpdateEmployeeInfoResponse clearLocation (UpdateEmployeeInfoRequest request);
 	
 	
 }

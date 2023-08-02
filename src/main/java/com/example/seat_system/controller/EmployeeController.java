@@ -36,5 +36,11 @@ public class EmployeeController {
 	public GetEmployeeInfoResponse getEmployeeInfo() {
 		return employeeService.getEmployeeInfo();
 	}
+	
+	@PostMapping(value = "clearLocation")
+	public UpdateEmployeeInfoResponse clearLocation(@RequestBody UpdateEmployeeInfoRequest request) {
+		return employeeService.clearLocation(request);
+		
+	}
 
 }
